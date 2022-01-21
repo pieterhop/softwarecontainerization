@@ -1,0 +1,14 @@
+kubectl apply -f ""XXX""
+
+api
+    deployment
+    service
+ui
+    deployment
+    service
+postgres
+    config
+    secret
+    storage
+    deployment
+    service
