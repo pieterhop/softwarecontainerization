@@ -6,7 +6,7 @@ from flask_sqlalchemy import get_or_404, first_or_404
 
 app = Flask(__name__)
 
-app.config['SQLALCHEMY_DATABASE_URI'] = "postgresql://postgres:1148@localhost:5432/flask"
+app.config['SQLALCHEMY_DATABASE_URI'] = "postgresql://postgresadmin:admin123@postgres-service:5432/postgresdb"
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 # db.init_app(app)
