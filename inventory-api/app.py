@@ -5,25 +5,27 @@ from flask_restful import reqparse, abort, Api, Resource
 from flask_sqlalchemy import get_or_404, first_or_404
 
 app = Flask(__name__)
+
 app.config['SQLALCHEMY_DATABASE_URI'] = "postgresql://postgres:1148@localhost:5432/flask"
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-db.init_app(app)
+
+# db.init_app(app)
 migrate = Migrate(app, db)
 api = Api(app)
 
-TODOS = {
-    '1': {'task': 'Task 1'},
-    '2': {'task': 'Task 2'},
-    '3': {'task': 'Task 3'},
-}
-
-
-def abort_if_todo_doesnt_exist(todo_id):
-    if todo_id not in TODOS:
-        abort(404, message="Todo {} doesn't exist".format(todo_id))
-
 parser = reqparse.RequestParser()
 parser.add_argument('task')
+
+# TODOS = {
+#     '1': {'task': 'Task 1'},
+#     '2': {'task': 'Task 2'},
+#     '3': {'task': 'Task 3'},
+# }
+
+
+# def abort_if_todo_doesnt_exist(todo_id):
+#     if todo_id not in TODOS:
+#         abort(404, message="Todo {} doesn't exist".format(todo_id))
 
 
 # class Todo(Resource):
