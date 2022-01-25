@@ -16,4 +16,5 @@ sudo docker build -t ui:dev .
     -v /app/node_modules \
     -p 3001:3000 \
     -e CHOKIDAR_USEPOLLING=true \
-    ui:dev
+    ui:dev <br/>
+    if run from the container, the app will be at localhost:3001
