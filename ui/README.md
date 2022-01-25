@@ -8,7 +8,7 @@
 ### To build the container run: <br />
 sudo docker build -t ui:dev .
 
-### To run the container after bulding run: <br />\
+### To run the container after bulding run: <br />
  sudo docker run \
     -it \
     --rm \
