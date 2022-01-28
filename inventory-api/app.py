@@ -25,7 +25,7 @@ def all():
     return todos, 200
 
 
-@app.route("/todo/<int:todo_id>", methods=["GET"])
+@app.route("/todos/<int:todo_id>", methods=["GET"])
 def single(todo_id):
     todo = Todo.query.filter_by(id=todo_id).first()
     return todo, 200
