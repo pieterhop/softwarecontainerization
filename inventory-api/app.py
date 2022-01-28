@@ -17,6 +17,10 @@ db.init_app(app)
 migrate = Migrate(app, db)
 api = Api(app)
 
+todo = TodoModel(task='test task')
+db.session.add(todo)
+db.session.commit()
+
 parser = reqparse.RequestParser()
 parser.add_argument('task')
 
