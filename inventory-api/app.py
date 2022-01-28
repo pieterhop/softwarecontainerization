@@ -1,7 +1,5 @@
-from flask import Flask, render_template, request
-from flask_migrate import Migrate
-from models import db, TodoModel
-from flask_restful import reqparse, abort, Api, Resource
+from flask import Flask, request
+from flask_sqlalchemy import SQLAlchemy
 import os
 from dotenv import load_dotenv
 
@@ -9,98 +7,59 @@ load_dotenv()
 
 app = Flask(__name__)
 
+# /// = relative path, //// = absolute path
 app.config['SQLALCHEMY_DATABASE_URI'] = os.environ['DATABASE_URL']
-# app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgresadmin:admin123@postgres-service:5432/postgresdb'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-
-db.init_app(app)
-migrate = Migrate(app, db)
-api = Api(app)
-
-todo = TodoModel(task='test task')
-db.session.add(todo)
-db.session.commit()
-
-parser = reqparse.RequestParser()
-parser.add_argument('task')
-
-# TODOS = {
-#     '1': {'task': 'Task 1'},
-#     '2': {'task': 'Task 2'},
-#     '3': {'task': 'Task 3'},
-# }
+db = SQLAlchemy(app)
 
 
-# def abort_if_todo_doesnt_exist(todo_id):
-#     if todo_id not in TODOS:
-#         abort(404, message="Todo {} doesn't exist".format(todo_id))
+class Todo(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String(100))
+    complete = db.Column(db.Boolean)
 
 
-# class Todo(Resource):
-#     def get(self, todo_id):
-#         abort_if_todo_doesnt_exist(todo_id)
-#         return TODOS[todo_id]
-
-#     def delete(self, todo_id):
-#         abort_if_todo_doesnt_exist(todo_id)
-#         del TODOS[todo_id]
-#         return '', 204
-
-#     def put(self, todo_id):
-#         args = parser.parse_args()
-#         task = {'task': args['task']}
-#         TODOS[todo_id] = {'task': args['task']}
-#         return task, 201
+@app.route("/todos", methods=["GET"])
+def all():
+    todos = Todo.query.all()
+    return todos, 200
 
 
-# class TodoList(Resource):
-#     def get(self):
-#         return TODOS
-
-#     def post(self):
-#         args = parser.parse_args()
-#         todo_id = int(max(TODOS.keys()).lstrip('todo')) + 1
-#         todo_id = 'todo%i' % todo_id
-#         TODOS[todo_id] = {'task': args['task']}
-#         return TODOS[todo_id], 201
+@app.route("/todo/<int:todo_id>", methods=["GET"])
+def single(todo_id):
+    todo = Todo.query.filter_by(id=todo_id).first()
+    return todo, 200
 
 
-class Todo(Resource):
-    def get(self, todo_id):
-        item = TodoModel.query.filter_by(id=todo_id)
-        return item, 200
-
-    def delete(self, todo_id):
-        item = TodoModel.query.filter_by(id=todo_id)
-        db.session.delete(item)
-        db.session.commit()
-        return '', 204
-
-    def put(self, todo_id):
-        item = TodoModel.query.filter_by(id=todo_id)
-        args = parser.parse_args()
-        task = args['task']
-        item.task = task
-        db.session.commit()
-        return task, 201
+@app.route("/todos/add", methods=["POST"])
+def add():
+    title = request.form.get("title")
+    new_todo = Todo(title=title, complete=False)
+    db.session.add(new_todo)
+    db.session.commit()
+    return new_todo, 201
 
 
-class TodoList(Resource):
-    def get(self):
-        todos = TodoModel.query.all()
-        return todos, 200
-
-    def post(self):
-        args = parser.parse_args()
-        todo = TodoModel(task=args['task'])
-        db.session.add(todo)
-        db.session.commit()
-        return todo, 201
+@app.route("/todos/update/<int:todo_id>", methods=["PUT"])
+def update(todo_id):
+    todo = Todo.query.filter_by(id=todo_id).first()
+    todo.complete = not todo.complete
+    db.session.commit()
+    return todo, 201
 
 
-api.add_resource(TodoList, '/todos')
-api.add_resource(Todo, '/todos/<todo_id>')
+@app.route("/todos/delete/<int:todo_id>", methods=["DELETE"])
+def delete(todo_id):
+    todo = Todo.query.filter_by(id=todo_id).first()
+    db.session.delete(todo)
+    db.session.commit()
+    return '', 204
 
+if __name__ == "__main__":
+    db.create_all()
 
-if __name__ == '__main__':
+    new_todo = Todo(title='test', complete=False)
+    db.session.add(new_todo)
+    db.session.commit()
+
     app.run(debug=True)
