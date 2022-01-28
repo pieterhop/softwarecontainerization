@@ -2,14 +2,18 @@ from flask import Flask, render_template, request
 from flask_migrate import Migrate
 from models import db, TodoModel
 from flask_restful import reqparse, abort, Api, Resource
-from flask_sqlalchemy import get_or_404, first_or_404
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
 
 app = Flask(__name__)
 
-app.config['SQLALCHEMY_DATABASE_URI'] = "postgresql://postgres:1148@localhost:5432/flask"
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ['DATABASE_URL']
+# app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgresadmin:admin123@postgres-service:5432/postgresdb'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
-# db.init_app(app)
+db.init_app(app)
 migrate = Migrate(app, db)
 api = Api(app)
 
@@ -59,17 +63,17 @@ parser.add_argument('task')
 
 class Todo(Resource):
     def get(self, todo_id):
-        item = TodoModel.query.filter_by(id=todo_id).get_or_404()
+        item = TodoModel.query.filter_by(id=todo_id)
         return item, 200
 
     def delete(self, todo_id):
-        item = TodoModel.query.filter_by(id=todo_id).get_or_404()
+        item = TodoModel.query.filter_by(id=todo_id)
         db.session.delete(item)
         db.session.commit()
         return '', 204
 
     def put(self, todo_id):
-        item = TodoModel.query.filter_by(id=todo_id).get_or_404()
+        item = TodoModel.query.filter_by(id=todo_id)
         args = parser.parse_args()
         task = args['task']
         item.task = task
@@ -79,7 +83,7 @@ class Todo(Resource):
 
 class TodoList(Resource):
     def get(self):
-        todos = TodoModel.query.all().get_or_404()
+        todos = TodoModel.query.all()
         return todos, 200
 
     def post(self):

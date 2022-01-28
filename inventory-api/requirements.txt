@@ -1,5 +1,6 @@
-flask
+flask==2.0.2
 flask_restful
 psycopg2-binary
 flask-sqlalchemy
-Flask-Migrate
+flask-migrate
+python-dotenv
