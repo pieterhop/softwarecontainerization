@@ -3,12 +3,13 @@ from flask_sqlalchemy import SQLAlchemy
 import os
 from dotenv import load_dotenv
 
+
 load_dotenv()
 
 app = Flask(__name__)
 
 # /// = relative path, //// = absolute path
-app.config['SQLALCHEMY_DATABASE_URI'] = f'postgresql://postgres:postgres@'
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ['DATABASE_URL']
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
@@ -62,4 +63,4 @@ if __name__ == "__main__":
     db.session.add(new_todo)
     db.session.commit()
 
-    app.run(debug=True)
+    app.run(host='0.0.0.0', port=5000)
