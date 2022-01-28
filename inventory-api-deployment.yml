@@ -16,6 +16,6 @@ spec:
     spec:
       containers:
       - name: inventory-api-container
-        image: localhost:32000/inventory-api:v1
+        image: localhost:32000/inventory-api:v3
         ports:
         - containerPort: 5000
