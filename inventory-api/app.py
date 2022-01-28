@@ -2,6 +2,7 @@ from flask import Flask, request
 from flask_sqlalchemy import SQLAlchemy
 import os
 from dotenv import load_dotenv
+import json
 
 load_dotenv()
 
@@ -22,13 +23,13 @@ class Todo(db.Model):
 @app.route("/todos", methods=["GET"])
 def all():
     todos = Todo.query.all()
-    return todos, 200
+    return json.dumps([ob.__dict__ for ob in todos]), 200
 
 
 @app.route("/todos/<int:todo_id>", methods=["GET"])
 def single(todo_id):
     todo = Todo.query.filter_by(id=todo_id).first()
-    return todo, 200
+    return json.dumps(todo.__dict__), 200
 
 
 @app.route("/todos/add", methods=["POST"])
@@ -37,7 +38,7 @@ def add():
     new_todo = Todo(title=title, complete=False)
     db.session.add(new_todo)
     db.session.commit()
-    return new_todo, 201
+    return json.dumps(new_todo.__dict__), 201
 
 
 @app.route("/todos/update/<int:todo_id>", methods=["PUT"])
@@ -45,7 +46,7 @@ def update(todo_id):
     todo = Todo.query.filter_by(id=todo_id).first()
     todo.complete = not todo.complete
     db.session.commit()
-    return todo, 201
+    return json.dumps(todo.__dict__), 201
 
 
 @app.route("/todos/delete/<int:todo_id>", methods=["DELETE"])
