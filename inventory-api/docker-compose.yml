@@ -9,7 +9,7 @@ services:
       - POSTGRES_NAME=postgres
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
-  web:
+  api:
     build: .
     command: python3 app.py
     volumes:
