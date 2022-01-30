@@ -1,21 +1,26 @@
-from flask import Flask, request
+from flask import Flask, request, jsonify
 from flask_sqlalchemy import SQLAlchemy
 import os
 from dotenv import load_dotenv
 import json
+from dataclasses import dataclass
 
 
 load_dotenv()
 
 app = Flask(__name__)
 
-# /// = relative path, //// = absolute path
 app.config['SQLALCHEMY_DATABASE_URI'] = os.environ['DATABASE_URL']
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
 
+@dataclass
 class Todo(db.Model):
+    id: int
+    title: str
+    complete: bool
+
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(100))
     complete = db.Column(db.Boolean)
@@ -24,13 +29,13 @@ class Todo(db.Model):
 @app.route("/todos", methods=["GET"])
 def all():
     todos = Todo.query.all()
-    return json.dumps([ob.__dict__ for ob in todos]), 200
+    return jsonify(todos), 200
 
 
 @app.route("/todos/<int:todo_id>", methods=["GET"])
 def single(todo_id):
     todo = Todo.query.filter_by(id=todo_id).first()
-    return json.dumps(todo.__dict__), 200
+    return jsonify(todo), 200
 
 
 @app.route("/todos/add", methods=["POST"])
@@ -39,7 +44,7 @@ def add():
     new_todo = Todo(title=title, complete=False)
     db.session.add(new_todo)
     db.session.commit()
-    return json.dumps(new_todo.__dict__), 201
+    return jsonify(new_todo), 201
 
 
 @app.route("/todos/update/<int:todo_id>", methods=["PUT"])
@@ -47,7 +52,7 @@ def update(todo_id):
     todo = Todo.query.filter_by(id=todo_id).first()
     todo.complete = not todo.complete
     db.session.commit()
-    return json.dumps(todo.__dict__), 201
+    return jsonify(todo), 201
 
 
 @app.route("/todos/delete/<int:todo_id>", methods=["DELETE"])
