@@ -1,5 +1,6 @@
 flask==2.0.2
 flask_restful
+flask_cors
 psycopg2-binary
 flask-sqlalchemy
 flask-migrate
