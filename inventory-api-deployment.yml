@@ -16,6 +16,6 @@ spec:
     spec:
       containers:
       - name: inventory-api-container
-        image: docker.io/softcont2022/sc-api:v7
+        image: docker.io/softcont2022/sc-api:test
         ports:
         - containerPort: 5000
