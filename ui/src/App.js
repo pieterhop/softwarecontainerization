@@ -3,6 +3,11 @@ import Form from "./components/Form";
 import FilterButton from "./components/FilterButton";
 import Todo from "./components/Todo";
 import { nanoid } from "nanoid";
+import axios from 'axios'
+
+const apiPort = '5000'
+const apiURL = 'http://localhost'
+
 
 
 function usePrevious(value) {
@@ -22,6 +27,20 @@ const FILTER_MAP = {
 const FILTER_NAMES = Object.keys(FILTER_MAP);
 
 function App(props) {
+  const [getMessage, setGetMessage] = useState({})
+
+useEffect(()=>{
+  axios.get(apiURL+':'+apiPort+'/todos').then(response => {
+    console.log("SUCCESS", response)
+    setGetMessage(response)
+  }).catch(error => {
+    console.log(error)
+  })
+
+}, [])
+
+
+
   const [tasks, setTasks] = useState(props.tasks);
   const [filter, setFilter] = useState('All');
 
