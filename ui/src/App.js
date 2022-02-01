@@ -6,7 +6,7 @@ import { nanoid } from "nanoid";
 import axios from 'axios'
 
 const apiPort = '5000'
-const apiURL = 'http://localhost'
+const apiURL = 'http://inventory-api-service'
 
 
 
@@ -30,7 +30,7 @@ function App(props) {
   const [getMessage, setGetMessage] = useState({})
 
 useEffect(()=>{
-  axios.get(apiURL+':'+apiPort+'/todos').then(response => {
+  axios.get(apiURL+':'+apiPort+'/todos',{ crossDomain: true }).then(response => {
     console.log("SUCCESS", response)
     setGetMessage(response)
   }).catch(error => {
