@@ -6,8 +6,8 @@ import { nanoid } from "nanoid";
 import axios from 'axios'
 
 const apiPort = '30007'
-const apiURL = 'http://localhost'
-
+//const apiURL = 'http://localhost'
+const apiURL = '10.40.10.178'
 var res=[]
 var resArray
 
