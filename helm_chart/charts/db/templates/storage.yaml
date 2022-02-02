@@ -14,12 +14,23 @@
 #   hostPath:
 #     path: "/opt/db/data"
 # ---
-kind: PersistentVolumeClaim
+# kind: PersistentVolumeClaim
+# apiVersion: v1
+# metadata:
+#   name: postgres-pv-claim
+#   labels:
+#     app: db
+# spec:
+#   storageClassName: microk8s-hostpath
+#   accessModes:
+#     - ReadWriteMany
+#   resources:
+#     requests:
+#       storage: 5Gi
 apiVersion: v1
+kind: PersistentVolumeClaim
 metadata:
   name: postgres-pv-claim
-  labels:
-    app: db
 spec:
   storageClassName: microk8s-hostpath
   accessModes:
@@ -27,3 +38,12 @@ spec:
   resources:
     requests:
       storage: 5Gi
+---      
+kind: StorageClass
+apiVersion: storage.k8s.io/v1
+metadata:
+  name: microk8s-hostpath
+provisioner: kubernetes.io/gce-pd
+parameters:
+  type: pd-standard
+  replication-type: none
