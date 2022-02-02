@@ -1,19 +1,19 @@
-kind: PersistentVolume
-apiVersion: v1
-metadata:
-  name: postgres-pv-volume
-  labels:
-    type: local
-    app: db
-spec:
-  storageClassName: microk8s-hostpath
-  capacity:
-    storage: 5Gi
-  accessModes:
-    - ReadWriteMany
-  hostPath:
-    path: "/var/lib/postgresql/data"
----
+# kind: PersistentVolume
+# apiVersion: v1
+# metadata:
+#   name: postgres-pv-volume
+#   labels:
+#     type: local
+#     app: db
+# spec:
+#   storageClassName: microk8s-hostpath
+#   capacity:
+#     storage: 5Gi
+#   accessModes:
+#     - ReadWriteMany
+#   hostPath:
+#     path: "/opt/db/data"
+# ---
 kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
