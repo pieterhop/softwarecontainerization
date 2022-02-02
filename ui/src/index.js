@@ -1,18 +1,46 @@
-import React from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import App from './App';
+import Apps from './Apps';
+import axios from 'axios'
 
+const apiPort = '30007'
+const apiURL = 'http://localhost'
+
+ //const [getMessage, setGetMessage] = useState({})
+
+
+
+// componentDidMount() {
+//   axios.get(apiURL+':'+apiPort+'/todos',{ crossDomain: true }).then(response => {
+//     console.log("SUCCESS", response)
+//     setGetMessage(response)
+//   }).catch(error => {
+//     console.log(error)
+//   })
+// }
 
 const DATA = [
-  { id: "todo-0", name: "Eat", completed: true },
-  { id: "todo-1", name: "Sleep", completed: false },
-  { id: "todo-2", name: "Repeat", completed: false }
+  {
+      "complete": false,
+      "id": 1,
+      "title": "test"
+  },
+  {
+      "complete": false,
+      "id": 2,
+      "title": "test"
+  },
+  {
+      "complete": false,
+      "id": 3,
+      "title": "test"
+  }
 ];
 
 ReactDOM.render(
   <React.StrictMode>
-    <App tasks={DATA} />
+    <Apps />
   </React.StrictMode>,
   document.getElementById('root')
 );

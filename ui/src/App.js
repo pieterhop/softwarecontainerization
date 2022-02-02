@@ -5,10 +5,11 @@ import Todo from "./components/Todo";
 import { nanoid } from "nanoid";
 import axios from 'axios'
 
-const apiPort = '5000'
-const apiURL = 'http://inventory-api-service'
+const apiPort = '30007'
+const apiURL = 'http://localhost'
 
-
+var res=[]
+var resArray
 
 function usePrevious(value) {
   const ref = useRef();
@@ -28,21 +29,37 @@ const FILTER_NAMES = Object.keys(FILTER_MAP);
 
 function App(props) {
   const [getMessage, setGetMessage] = useState({})
+  const [post, setPost] = useState({})
 
 useEffect(()=>{
   axios.get(apiURL+':'+apiPort+'/todos',{ crossDomain: true }).then(response => {
-    console.log("SUCCESS", response)
+    res = response.data
+    //resArray = JSON.parse(res)
+    console.log("SUCCESS", res)
     setGetMessage(response)
   }).catch(error => {
     console.log(error)
   })
-
+ 
 }, [])
 
+function postReq(title){
+  axios.post(apiURL+':'+apiPort+'/todos/add', {title: title})
+  .then((response) => {
+    setPost(response.data)
+  }).catch(error => {
+    console.log(error)
+  })
+}
 
+function deleteReq(id){
+  axios.delete(apiURL+':'+apiPort+'/todos/delete/'+id)
+  .then(() => console.log("Deleted."))
+}
 
   const [tasks, setTasks] = useState(props.tasks);
   const [filter, setFilter] = useState('All');
+//setTasks(res)
 
   function toggleTaskCompleted(id) {
     const updatedTasks = tasks.map(task => {
@@ -60,6 +77,7 @@ useEffect(()=>{
 
   function deleteTask(id) {
     const remainingTasks = tasks.filter(task => id !== task.id);
+    deleteReq(id)
     setTasks(remainingTasks);
   }
 
@@ -81,7 +99,7 @@ useEffect(()=>{
   .map(task => (
     <Todo
       id={task.id}
-      name={task.name}
+      name={task.title}
       completed={task.completed}
       key={task.id}
       toggleTaskCompleted={toggleTaskCompleted}
@@ -100,7 +118,9 @@ useEffect(()=>{
   ));
 
   function addTask(name) {
-    const newTask = { id: "todo-" + nanoid(), name: name, completed: false };
+    const newTask = { id: "todo-" + nanoid(), title: name, completed: false };
+    console.log(name)
+    postReq(name)
     setTasks([...tasks, newTask]);
   }
 
