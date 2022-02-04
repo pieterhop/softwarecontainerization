@@ -17,6 +17,6 @@ spec:
       containers:
       - name: inventory-ui-container
         #image: localhost:32000/inventory-ui:v1
-        image: docker.io/softcont2022/sc-ui:v30  
+        image: docker.io/softcont2022/sc-ui:v31  
         ports:
         - containerPort: 80
