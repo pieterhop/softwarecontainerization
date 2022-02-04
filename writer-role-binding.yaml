@@ -1,0 +1,17 @@
+apiVersion: rbac.authorization.k8s.io/v1
+# This role binding allows "writeruser" to read and write pods in the "default" namespace.
+# We have a Role named "writer-role" in the namespace.
+kind: RoleBinding
+metadata:
+  name: read-and-write-pods
+  namespace: default
+subjects:
+# Affected users:
+- kind: User
+  name: writeruser # case sensitive name of user that the role is applied to
+  apiGroup: rbac.authorization.k8s.io
+roleRef:
+  # "roleRef" specifies the binding to a Role / ClusterRole
+  kind: Role #this must be Role or ClusterRole
+  name: writer-role # this must match the name of the Role or ClusterRole you wish to bind to
+  apiGroup: rbac.authorization.k8s.io
