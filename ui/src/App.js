@@ -6,8 +6,8 @@ import { nanoid } from "nanoid";
 import axios from 'axios'
 
 const apiPort = '30007'
-//const apiURL = 'http://localhost'
-const apiURL = '10.40.10.178'
+const apiURL = 'http://34.77.230.60'
+
 var res=[]
 var resArray
 
@@ -44,9 +44,15 @@ useEffect(()=>{
 }, [])
 
 function postReq(title){
-  axios.post(apiURL+':'+apiPort+'/todos/add', {title: title})
+  //console.log(title)
+  //const data = {title: title}
+  //console.log(data)
+  const headers = { 'Content-Type': 'application/json'}
+  axios.post(apiURL+':'+apiPort+'/todos/add', {title: 'title'}, 
+  {headers:headers})
   .then((response) => {
     setPost(response.data)
+    console.log(response.data)
   }).catch(error => {
     console.log(error)
   })

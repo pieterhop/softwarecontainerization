@@ -7,7 +7,7 @@ import axios from 'axios'
 import App from './App';
 
 const apiPort = '30007'
-const apiURL = 'http://localhost'
+const apiURL = 'http://34.77.230.60'
 
 var res=[]
 var res2
