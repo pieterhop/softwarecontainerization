@@ -5,7 +5,7 @@
 replicaCount: 3
 
 image:
-  repository: docker.io/softcont2022/sc-api:test
+  repository: docker.io/softcont2022/sc-api:v32
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
   tag: ""
