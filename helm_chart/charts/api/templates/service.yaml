@@ -14,4 +14,4 @@ spec:
       nodePort: {{ .Values.service.nodePort }}
     
   selector:
-    {{- include "api.selectorLabels" . | nindent 4 }}
+    app: inventory-api
