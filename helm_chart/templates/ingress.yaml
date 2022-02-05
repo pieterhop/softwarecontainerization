@@ -9,7 +9,7 @@ spec:
   - host: my-todo-app.com
     http:
       paths:
-      - path: /ui
+      - path: 
         pathType: Prefix
         backend:
           service:
