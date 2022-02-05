@@ -6,7 +6,7 @@ spec:
   tls:
   - secretName: my-tls-secret
   rules:
-  - host: sc.com
+  - host: 
     http:
       paths:
       - path: /
