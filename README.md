@@ -24,4 +24,4 @@ It has 3 components:
  3. The database, which is a postgres DB.
  
 All the components mentioned above run in their own containers and are exposed via services called `inventory-ui-service`, `inventory-api-service` and `postgres-service` respectively. <br>
-We also have 2 ingress rules that allow https connections to the UI and API called `ui-ingress` and api-`ingress` respectively.
+We also have 2 ingress rules that allow https connections to the UI and API called `ui-ingress` and `api-ingress` respectively.
