@@ -6,10 +6,10 @@ spec:
   tls:
   - secretName: my-tls-secret
   rules:
-  - host: 
+  - host: my-todo-app.com
     http:
       paths:
-      - path: /
+      - path: /ui
         pathType: Prefix
         backend:
           service:
