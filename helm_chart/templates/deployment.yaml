@@ -1,16 +1,16 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "helm_chart.fullname" . }}
+  name: inventory-ui-deployment
   labels:
-    {{- include "helm_chart.labels" . | nindent 4 }}
+    app: inventory-ui
 spec:
   {{- if not .Values.autoscaling.enabled }}
   replicas: {{ .Values.replicaCount }}
   {{- end }}
   selector:
     matchLabels:
-      {{- include "helm_chart.selectorLabels" . | nindent 6 }}
+      app: inventory-ui
   template:
     metadata:
       {{- with .Values.podAnnotations }}
@@ -18,7 +18,7 @@ spec:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       labels:
-        {{- include "helm_chart.selectorLabels" . | nindent 8 }}
+        app: inventory-ui
     spec:
       {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
