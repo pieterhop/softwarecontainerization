@@ -10,4 +10,5 @@ spec:
   - from:
       - podSelector:
           matchLabels:
-            app: inventory-ui
+            app: inventory-api-service
+
